@@ -15,45 +15,6 @@ const Rate = () => {
         CheckInterestRate, CheckExchangeRate,
      } = useContext(EtherContext)
 
-    // const [saveExchangeRate, setsaveExchangeRate] = useState({})
-    // const [saveInterestRate, setsaveInterestRate] = useState({})
-
-    // useEffect(() => {
-    //     if (CEther) {
-    //         CheckInterestRate()
-    //         CheckExchangeRate()
-    //     }
-    // }, [CEther])
-
-    // const CheckExchangeRate = () => {
-    //     CEther.callStatic.exchangeRateCurrent().then(res => {
-    //         const exchangeRateCurrents = res.toString()
-    //         const underlyingDecimals = 18 // decimals like DAI or USDC
-    //         const cTokenDecimals = 8 // decimals like CDAI
-    //         const mantissa = 18 + parseInt(underlyingDecimals) - cTokenDecimals;
-    //         const oneCTokenInUnderlying = exchangeRateCurrents / Math.pow(10, mantissa)
-    //         setsaveExchangeRate({
-    //             result: oneCTokenInUnderlying
-    //         })
-    //     })
-    // }
-    // const CheckInterestRate = async () => {
-    //     const ethMantissa = 1e18;
-    //     const blocksPerDay = 6570; // 13.15 seconds per block
-    //     const daysPerYear = 365;
-
-    //     const supplyRatePerBlock = await CEther.callStatic.supplyRatePerBlock()
-    //     const borrowRatePerBlock = await CEther.callStatic.borrowRatePerBlock()
-
-    //     const supplyApy = (((Math.pow((supplyRatePerBlock / ethMantissa * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
-    //     const borrowApy = (((Math.pow((borrowRatePerBlock / ethMantissa * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
-    //     setsaveInterestRate({
-    //         supplyResult: supplyApy,
-    //         borrowResult: borrowApy
-    //     })
-    // }
-
-
     return (
         <Container>
             <br /><br />
