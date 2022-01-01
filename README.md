@@ -4,7 +4,7 @@ fork simulation mainnet transactions
 1. install depedencies npm install or yarn
 2. alchemyapi key 
 4. running hardhat 
-    - npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/<your key>
+    - npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/your key
 5. run react
     - npm start run on port 3000
 6. thanks..
