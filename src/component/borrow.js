@@ -20,62 +20,8 @@ const Borrow = () => {
         setisCETHmember, setisCDAImember,
     } = useContext(EtherContext)
 
-    // input button
     const [borrowamountData, setborrowamountData] = useState(0)
     const [repayamountData, setrepayamountData] = useState(0)
-
-    // const [isCETHmember, setisCETHmember] = useState(false)
-    // const [isCDAImember, setisCDAImember] = useState(false)
-    // const [liquidityInfo, setliquidityInfo] = useState(0)
-
-    // const [CollateralCETH, setCollateralCETH] = useState({})
-    // const [CollateralCDAI, setCollateralCDAI] = useState({})
-
-    // const [CETHBorrowRate, setCETHBorrowRate] = useState("empty")
-    // const [CDAIBorrowRate, setCDAIBorrowRate] = useState("empty")
-
-    // useEffect(() => {
-    //     if (defaultAccount) {
-    //         checkMembershipCETH()
-    //         checkMembershipCDAI()
-    //         checkliquidity()
-    //         checkCollateral()
-    //         borrowRate()
-    //     }
-    // }, [defaultAccount])
-
-    // const checkMembershipCETH = async () => {
-    //     if (defaultAccount) {
-    //         let result = await Comptroller.callStatic.checkMembership(defaultAccount, CETH);
-    //         setisCETHmember(result)
-    //     }
-    // }
-    // const checkMembershipCDAI = async () => {
-    //     if (defaultAccount) {
-    //         let result = await Comptroller.callStatic.checkMembership(defaultAccount, CDAI);
-    //         setisCDAImember(result)
-    //     }
-    // }
-    // const checkliquidity = async () => {
-    //     if (defaultAccount) {
-    //         let [err, liquidity, shortfall] = await Comptroller.callStatic.getAccountLiquidity(defaultAccount);
-    //         setliquidityInfo(liquidity.toString())
-    //     }
-    // }
-    // const checkCollateral = async () => {
-    //     let [isListedCETH, collateralFactorCETH, isCompedCETH] = await Comptroller.callStatic.markets(CETH)
-    //     let [isListedCDAI, collateralFactorCDAI, isCompedCDAI] = await Comptroller.callStatic.markets(CDAI)
-    //     setCollateralCETH({
-    //         isListed: isListedCETH,
-    //         collateralFactor: (collateralFactorCETH / 1e18) * 100,
-    //         isComped: isCompedCETH
-    //     })
-    //     setCollateralCDAI({
-    //         isListed: isListedCDAI,
-    //         collateralFactor: (collateralFactorCDAI / 1e18) * 100,
-    //         isComped: isCompedCDAI
-    //     })
-    // }
 
     const registerCETHMember = async () => {
         let markets = [CETH] // This is the CDAI contract(s) for your collateral
@@ -91,14 +37,6 @@ const Borrow = () => {
         let result = await Comptroller.callStatic.checkMembership(defaultAccount, CDAI)
         setisCDAImember(result)
     }
-
-    // const borrowRate = async () => {
-    //     const underlyingDecimals = 18
-    //     let cdaiRate = await CDai.callStatic.borrowRatePerBlock()
-    //     setCETHBorrowRate(cdaiRate / Math.pow(10, underlyingDecimals))
-    //     let cethRate = await CEther.callStatic.borrowRatePerBlock()
-    //     setCDAIBorrowRate(cethRate / Math.pow(10, underlyingDecimals))
-    // }
 
     const borrowCDai = async () => {
         const underlyingDecimals = 18
