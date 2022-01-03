@@ -14,15 +14,19 @@ const EtherProvider = ({ children }) => {
     const [providerSigner, setProviderSigner] = useState(null);
     const [JsonRpcProvider, setJsonRpcProvider] = useState(null)
 
+    // COntract
     const [CEther, setCEther] = useState(null)
     const [Comptroller, setComptroller] = useState(null)
     const [ComptrollerProxy, setComptrollerProxy] = useState(null)
+    const [Comp, setComp] = useState(null)
     const [CDai, setCDai] = useState(null)
     const [Dai, setDai] = useState(null)
     const [priceFeed, setPriceFeed] = useState(null)
 
+    // DATA BALANCE
     const [meBalanceOfCether, setmeBalanceOfCether] = useState(null)
     const [meBalanceOfCDai, setmeBalanceOfCDai] = useState(null)
+    const [meBalanceOfComp, setmeBalanceOfComp] = useState(null)
     const [meBalanceOfDai, setmeBalanceOfDai] = useState(null)
     const [meBalanceOUnderlyingfCether, setmeBalanceOUnderlyingfCether] = useState(null)
     const [meBorrowBalanceOfCDai, setmeBorrowBalanceOfCDai] = useState(null)
@@ -34,10 +38,12 @@ const EtherProvider = ({ children }) => {
     const [CDaiBalance, setCDaiBalance] = useState(null)
     const [CDaitotalSupply, setCDaitotalSupply] = useState(null)
 
+    // PRICE FEED UNDERLYING
     const [DAIPrice, setDAIPrice] = useState(null)
     const [CDAIUnderlyingPrice, setCDAIUnderlyingPrice] = useState(null)
     const [CETHUnderlyingPrice, setCETHUnderlyingPrice] = useState(null)
 
+    // BorrowPage =================================================================
     const [isCETHmember, setisCETHmember] = useState(false)
     const [isCDAImember, setisCDAImember] = useState(false)
     const [liquidityInfo, setliquidityInfo] = useState(0)
@@ -96,7 +102,9 @@ const EtherProvider = ({ children }) => {
         let cethRate = await CEther.callStatic.borrowRatePerBlock()
         setCDAIBorrowRate(cethRate / Math.pow(10, underlyingDecimals))
     }
+    // BorrowPage =================================================================
 
+    // RAtePage =================================================================
     const [saveExchangeRate, setsaveExchangeRate] = useState({})
     const [saveInterestRate, setsaveInterestRate] = useState({})
 
@@ -134,6 +142,9 @@ const EtherProvider = ({ children }) => {
             borrowResult: borrowApy
         })
     }
+
+    // RAtePage =================================================================
+
 
     useEffect(() => {
         setJsonRpcProvider(new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545/"))
@@ -173,6 +184,9 @@ const EtherProvider = ({ children }) => {
     }
 
     useEffect(() => {
+        if(Comptroller) {
+            global.comptest = Comptroller
+        }
         if (CEther) {
             CEther.totalSupply().then(res => {
                 setCEthertotalSupply(res.toString())
@@ -213,7 +227,15 @@ const EtherProvider = ({ children }) => {
                 setmeBorrowBalanceOfCDai(res.toString())
             })
         }
-    }, [defaultAccount, CEther, CDai, Comptroller, Dai]);
+        if (defaultAccount && Comp) {
+            Comp.callStatic.balanceOf(defaultAccount).then(res => {
+                setmeBalanceOfComp(ethers.utils.formatEther(res))
+            })
+            // CDai.callStatic.borrowBalanceCurrent(defaultAccount).then(res => {
+            //     setmeBorrowBalanceOfCDai(res.toString())
+            // })
+        }
+    }, [defaultAccount, CEther, CDai, Comptroller, Dai, Comp]);
 
     useEffect(() => {
         if (providerSigner) {
@@ -223,12 +245,15 @@ const EtherProvider = ({ children }) => {
             setCDai(new ethers.Contract(CDAI, CDAI_abi, providerSigner))
             setPriceFeed(new ethers.Contract(PRICEFEED, PRICEFEED_abi, providerSigner))
             setDai(new ethers.Contract(DAI, DAI_abi, providerSigner))
+            setComp(new ethers.Contract(COMP, COMP_abi, providerSigner))
         }
     }, [providerSigner])
 
     const connectWalletHandler = () => {
         if (window.ethereum && defaultAccount == null) {
+            // set ethers provider
             setProvider(new ethers.providers.Web3Provider(window.ethereum))
+            // connect to metamask
             window.ethereum.request({ method: 'eth_requestAccounts' })
                 .then(result => {
                     setDefaultAccount(result[0]);
@@ -252,20 +277,27 @@ const EtherProvider = ({ children }) => {
             JsonRpcProvider, setJsonRpcProvider,
 
             connectWalletHandler,
-            CEther, Comptroller, ComptrollerProxy, CDai, priceFeed,
+            CEther, Comptroller, ComptrollerProxy, CDai, priceFeed, Comp,
 
             CEtherBalance, CEthertotalSupply,
             CDaiBalance, CDaitotalSupply,
-            meBalanceOfCether, meBalanceOUnderlyingfCether, meBalanceOfCDai,
-            meBorrowBalanceOfCDai, meBorrowBalanceOfCEther, meBalanceOfDai,
 
+            // balance
+            meBalanceOfCether, meBalanceOUnderlyingfCether, meBalanceOfCDai,
+            meBorrowBalanceOfCDai, meBorrowBalanceOfCEther, meBalanceOfDai, 
+            meBalanceOfComp,
+
+            // PRICE FEED
             CDAIUnderlyingPrice, CETHUnderlyingPrice, DAIPrice, Dai,
 
             callProvider,
             setmeBorrowBalanceOfCDai,
 
+            // borrowPage
             isCETHmember, isCDAImember, liquidityInfo, CollateralCETH, CollateralCDAI,
             CETHBorrowRate, CDAIBorrowRate, setisCETHmember, setisCDAImember,
+
+            // RatePage
             saveInterestRate, saveExchangeRate, CheckInterestRate, CheckExchangeRate,
         }}>
             {children}

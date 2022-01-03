@@ -13,7 +13,7 @@ const Header = () => {
         userBalance,
         connectWalletHandler,
 
-        CEtherBalance, CEthertotalSupply, meBalanceOfCDai,
+        CEtherBalance, CEthertotalSupply, meBalanceOfCDai, meBalanceOfComp,
         meBalanceOfCether, meBalanceOUnderlyingfCether, CDaitotalSupply
     } = useContext(EtherContext)
     
@@ -27,12 +27,13 @@ const Header = () => {
                     <Navbar.Brand href="#">{"RATE"}</Navbar.Brand>
                     <Navbar.Brand href="#/supply">{"SUPPLY"}</Navbar.Brand>
                     <Navbar.Brand href="#/borrow">{"BORROW"}</Navbar.Brand>
+                    <Navbar.Brand href="#/reward">{"REWARD"}</Navbar.Brand>
 
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     {defaultAccount ? <Navbar.Collapse className="justify-content-end">
                         {/* <Nav className="me-auto"> */}
                         <Nav.Link href="#address"> {defaultAccount}</Nav.Link> |
-                        <Nav.Link href="#balance"> balance : {userBalance}</Nav.Link>
+                        <Nav.Link href="#balance"> {Number(userBalance).toFixed(6)}</Nav.Link>
                         {/* </Nav> */}
                     </Navbar.Collapse> : []}
                     {!defaultAccount ? (
@@ -101,7 +102,6 @@ const Header = () => {
                                     </Card.Body>
                                 </Card>
                             </Col>
-
                             <Col md={2}>
                                 <Card style={{
                                     fontSize: 10,

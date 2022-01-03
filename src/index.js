@@ -1,5 +1,8 @@
 /* eslint-disable */
 /* eslint-disable-next-line */
+
+global.COMP = '0xc00e94cb662c3520282e6f5717214004a7f26888'
+global.COMP_abi = require('./abi/COMP.json')
 global.DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
 global.DAI_abi = require('./abi/DAI.json')
 global.CDAI = "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643"
